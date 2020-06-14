@@ -22,14 +22,31 @@ self.addEventListener('fetch', (event) => {
   );
 });
 // activate the sw
+// self.addEventListener('activate', (event) => {
+//   const cacheWhiteList = [];
+//   cacheWhiteList.push(CACHE_NAME);
+//   event.waitUntil(
+//     caches.keys().then((cacheNames) =>
+//       Promise.all(
+//         cacheNames.map((cacheName) => {
+//           if (cacheWhiteList.includes(cacheName)) {
+//             return caches.delete(cacheName);
+//           }
+//         })
+//       )
+//     )
+//   );
+// });
+
 self.addEventListener('activate', (event) => {
-  const cacheWhiteList = [];
-  cacheWhiteList.push(CACHE_NAME);
+  const cacheWhitelist = [];
+  cacheWhitelist.push(CACHE_NAME);
+
   event.waitUntil(
     caches.keys().then((cacheNames) =>
       Promise.all(
         cacheNames.map((cacheName) => {
-          if (cacheWhiteList.includes(cacheName)) {
+          if (!cacheWhitelist.includes(cacheName)) {
             return caches.delete(cacheName);
           }
         })
